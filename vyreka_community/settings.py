@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,7 +126,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # 1. Switch from the terminal console to the live Gmail server network
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -135,8 +135,12 @@ EMAIL_USE_TLS = True
 # 2. Provide your actual community email account details
 EMAIL_HOST_USER = 'mismailahmed46@gmail.com'
 
+# Load the .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 # 3. PASTE THE 16-CHARACTER CODE YOU COPIED FROM GOOGLE HERE (No spaces!)
-EMAIL_HOST_PASSWORD = 'easaxfabtzymdqfz'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # 4. Set the professional display name users will see in their inboxes
 DEFAULT_FROM_EMAIL = 'Vyreka Hyderabad Community <mismailahmed46@gmail.com>'
