@@ -1,66 +1,109 @@
+import json
 
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib import messages
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_http_methods
+
 from .models import Event
 
-def homepage(request):
-    return render(request, 'home/index.html')
 
-def about(request):
-    return render(request, "home/about.html")
+@require_GET
+def events_api(request):
+    events = Event.objects.all().order_by("date")
 
-def contact(request):
-    return render(request, "home/contact.html")
+    data = [
+        {
+            "id": event.id,
+            "title": event.title,
+            "date": event.date.isoformat(),
+            "description": event.description,
+            "venue": event.venue or "TBA",
+            "registration_link": event.registration_link,
+            "is_live": event.is_live,
+        }
+        for event in events
+    ]
 
-def partnership(request):
-    return render(request, "home/partnership.html")
+    return JsonResponse({"events": data}, status=200)
 
-def team(request):
-    return render(request, "home/team.html")
 
-# MAKE SURE THIS IS EXACTLY 'events' (not events_page)
-def events(request):
-    db_events = Event.objects.all()
-    return render(request, 'home/events.html', {'events': db_events})
+@require_GET
+def homepage_events_api(request):
+    events = Event.objects.all().order_by("-date")[:6]
 
-def contact(request):
-    if request.method == 'POST':
-        # Safely extract POST data using the HTML element names
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        user_email = request.POST.get('email')
-        mobile = request.POST.get('mobile', 'Not Provided')
-        message_body = request.POST.get('message')
-        
+    data = [
+        {
+            "id": event.id,
+            "title": event.title,
+            "date": event.date.isoformat(),
+            "description": event.description,
+            "venue": event.venue or "TBA",
+            "registration_link": event.registration_link,
+            "is_live": event.is_live,
+        }
+        for event in events
+    ]
+
+    return JsonResponse({"events": data}, status=200)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def contact_api(request):
+    try:
+        data = json.loads(request.body)
+
+        first_name = data.get("first_name", "").strip()
+        last_name = data.get("last_name", "").strip()
+        user_email = data.get("email", "").strip()
+        mobile = data.get("mobile", "").strip() or "Not Provided"
+        message_body = data.get("message", "").strip()
+
+        if not first_name or not last_name or not user_email or not message_body:
+            return JsonResponse(
+                {"error": "All required fields must be filled."},
+                status=400,
+            )
+
         full_name = f"{first_name} {last_name}"
 
-        # 1. Dispatch Response/Thank You email to the User
         send_mail(
             subject="Thank you for reaching out to Vyreka!",
-            message=f"Hi {full_name},\n\nThank you for getting in touch with us! We have received your message and our team will get back to you shortly.\n\nBest regards,\nTeam Vyreka",
+            message=(
+                f"Hi {full_name},\n\n"
+                "Thank you for getting in touch with us! "
+                "We have received your message and our team will get back to you shortly.\n\n"
+                "Best regards,\n"
+                "Team Vyreka"
+            ),
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user_email],
             fail_silently=False,
         )
 
-        # 2. Dispatch submission record logs to the Admin core team
-        admin_email = 'mismailahmed46@gmail.com'
+        admin_email = "mismailahmed46@gmail.com"
         send_mail(
             subject=f"[Vyreka] New Contact Submission from {full_name}",
-            message=f"You received a new message through the contact page form.\n\n"
-                    f"Name: {full_name}\n"
-                    f"Email: {user_email}\n"
-                    f"Mobile: {mobile}\n\n"
-                    f"Message:\n{message_body}",
+            message=(
+                "You received a new message through the contact page form.\n\n"
+                f"Name: {full_name}\n"
+                f"Email: {user_email}\n"
+                f"Mobile: {mobile}\n\n"
+                f"Message:\n{message_body}"
+            ),
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[admin_email],
             fail_silently=False,
         )
 
-        # Pass a confirmation feedback message to display inside your view template
-        messages.success(request, "Your message has been sent successfully!")
-        return redirect('contact')
+        return JsonResponse(
+            {"message": "Your message has been sent successfully!"},
+            status=200,
+        )
 
-    return render(request, 'home/contact.html')
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

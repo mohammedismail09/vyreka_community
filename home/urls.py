@@ -2,10 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.homepage, name='homepage'), 
-    path('about-us', views.about, name='about-us'), 
-    path('contact-us', views.contact, name='contact'), 
-    path('events', views.events, name='events'), 
-    path('partnership', views.partnership, name='partnership'), 
-    path('team', views.team, name='team'), 
+    path("api/events/", views.events_api, name="events_api"),
+    path("api/events/homepage/", views.homepage_events_api, name="homepage_events_api"),
+    path("api/contact/", views.contact_api, name="contact_api"),
 ]

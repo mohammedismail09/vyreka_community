@@ -1,4 +1,33 @@
-.venv/
-.env
-db.sqlite3
+# ── Python ──────────────────────────────
+*.pyc
+*.pyo
 __pycache__/
+
+# ── Django ──────────────────────────────
+db.sqlite3
+*.log
+
+# ── Migrations (keep __init__.py, ignore generated files) ──
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# ── Virtual Environment ──────────────────
+.venv/
+venv/
+env/
+
+# ── Environment Variables ────────────────
+.env
+
+# ── React / Node  ────────────────────────
+node_modules/
+dist/
+frontend/dist/
+
+# ── IDEs ─────────────────────────────────
+.vscode/
+.idea/
+
+# ── OS ───────────────────────────────────
+.DS_Store
+Thumbs.db
