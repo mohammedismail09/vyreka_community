@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logoLight from "../../assets/images/vyreka-nobg.png";
-import logoDark from "../../assets/images/vyreka-wht-no-bg.png";
+import logoLight from "../../../public/team/vyreka-nobg.png";
+import logoDark from "../../../public/team/vyreka-wht-no-bg.png";
 
 type NavbarProps = {
   theme: "dark" | "light";

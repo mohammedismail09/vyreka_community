@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import logoLight from "../../assets/images/vyreka-nobg.png";
-import logoDark from "../../assets/images/vyreka-wht-no-bg.png";
+import logoLight from "../../../public/team/vyreka-nobg.png";
+import logoDark from "../../../public/team/vyreka-wht-no-bg.png";
 
 export default function Footer() {
   return (
