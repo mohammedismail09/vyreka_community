@@ -28,3 +28,18 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+from django.db import models
+
+class TeamMember(models.Model):
+    name = models.CharField(max_length=100, help_text="Enter the team member's full name.")
+    role = models.CharField(max_length=100, help_text="Enter the team member's role or position.")
+    tag = models.CharField(max_length=200, blank=True, null=True, help_text="A short title or designation (e.g., 'Lead Developer').")
+    bio = models.TextField(blank=True, null=True, help_text="A brief biography or description of the team member.")
+    image_url = models.CharField(max_length=500, blank=True, null=True, help_text="e.g., /team/ismail.jpeg")
+    linkedin_url = models.URLField(max_length=300, blank=True, null=True)
+    x_url = models.URLField(max_length=300, blank=True, null=True) 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.role}"

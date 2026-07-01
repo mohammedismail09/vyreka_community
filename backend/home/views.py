@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .models import Event
+from .models import Event, TeamMember
 
 
 @require_GET
@@ -48,6 +48,26 @@ def homepage_events_api(request):
 
     return JsonResponse({"events": data}, status=200)
 
+def team_list_api(request):
+    # Fetch all team members from your Postgres database
+    members = TeamMember.objects.all().order_by('id')
+    
+    # Map the database objects into a clean Python list of dictionaries
+    data = []
+    for member in members:
+        data.append({
+            "id": member.id,
+            "name": member.name,
+            "role": member.role,
+            "tag": member.tag or "",
+            "bio": member.bio or "",
+            "image_url": member.image_url or "",
+            "linkedin_url": member.linkedin_url or "",
+            "x_url": member.x_url or "",
+        })
+        
+    # Send it back to React as a secure JSON response
+    return JsonResponse(data, safe=False)
 
 @csrf_exempt
 @require_http_methods(["POST"])

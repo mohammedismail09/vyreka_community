@@ -1,0 +1,196 @@
+[
+{
+    "model": "home.event",
+    "pk": 1,
+    "fields": {
+        "title": "AI Frontier",
+        "date": "2026-07-05T10:00:00Z",
+        "description": "",
+        "venue": "KIT Skill Hub, Financial District, Hyderabad",
+        "registration_link": "https://share.goavo.ai/og/event?id=6a3b81fbb69b1c57ffbcfe85&utm_source=custom&utm_medium=link&utm_campaign=vyrekha&utm_code=c1577ff3d7cf",
+        "is_live": true
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 2,
+    "fields": {
+        "name": "Vaishnavi Devi",
+        "role": "Founder",
+        "tag": "AI/ML Engineer | Community Builder",
+        "bio": "I am Vaishnavi, AI/ML Engineer and Data Analyst with a strong interest in Generative AI. Founder of Vyreka, a Hyderabad-based tech community empowering students with industry-ready skills through practical learning and collaboration.",
+        "image_url": "team\\founder.jpg",
+        "linkedin_url": "https://www.linkedin.com/in/vanam-vaishnavi-devi-9601ba2bb/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:24:41.654Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 3,
+    "fields": {
+        "name": "Guggilla SaiKiran",
+        "role": "Community Lead",
+        "tag": "Graphics & Social Intern @ GoAvo.ai",
+        "bio": "Graphics & Social Media Intern @Goavo.ai and Team Lead at Vyreka, combining creativity, leadership, and digital marketing to create impactful brand experiences.",
+        "image_url": "team\\saikiran.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/guggillasaikiran",
+        "x_url": null,
+        "created_at": "2026-06-30T21:26:13.431Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 4,
+    "fields": {
+        "name": "Pothala PradeepKiran",
+        "role": "Community Lead",
+        "tag": "Associate Software Engineer",
+        "bio": "Passionate technology professional dedicated to continuous learning, problem-solving, and creating impactful solutions through architectural design, technology transformation, and team-wide collaboration.",
+        "image_url": "team\\pradeep.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/pradeep-kiran-275010278?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+        "x_url": null,
+        "created_at": "2026-06-30T21:27:19.384Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 5,
+    "fields": {
+        "name": "Mohammed Ismail",
+        "role": "Web Developer",
+        "tag": null,
+        "bio": "Backend Developer focused on building robust architectures, optimizing performance, and developing solutions that bridge innovation with execution.",
+        "image_url": "team\\ismail.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/mohammedismail02/",
+        "x_url": "https://x.com/mohdismailx27",
+        "created_at": "2026-06-30T21:30:19.669Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 6,
+    "fields": {
+        "name": "Rahul Paladugula",
+        "role": "Technical Support",
+        "tag": "DevOps Lifecycle | IT Infrastructure",
+        "bio": "Focused on technical workspace integrity, deployment workflows, and ensuring students experience smooth configurations during hackathons and dynamic practical workshops.",
+        "image_url": "team\\rahul.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/rahul5892/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:31:09.720Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 7,
+    "fields": {
+        "name": "Ankam Vennela",
+        "role": "Technical Support",
+        "tag": "Systems Engineering | IT Operations",
+        "bio": "Dedicated to troubleshooting technical challenges, managing infrastructure setups, and assisting standard developer operations across ecosystem platforms.",
+        "image_url": "team/ankam.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/vennela-ankam-544740318/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:34:40.790Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 8,
+    "fields": {
+        "name": "Krishnaveni Reddy",
+        "role": "Speaker Outreach",
+        "tag": "Corporate Relations | Communications",
+        "bio": "Connecting Vyreka with corporate visionaries and tech industry veterans to organize masterclasses that enrich our student learning ecosystems.",
+        "image_url": "team/krishnaveni.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/krishnaveni-reddy-233653278/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:35:16.679Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 9,
+    "fields": {
+        "name": "Afeefa Rahman",
+        "role": "Speaker Research & Outreach",
+        "tag": "Market Research | Content Alignment",
+        "bio": "Curating a diverse roster of technical speakers by scouting emerging talent and validating industry relevance to align our tech seminars with future market trends.",
+        "image_url": "team/afeefa.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/afeefa-rahman-b844a3321",
+        "x_url": null,
+        "created_at": "2026-06-30T21:36:30.165Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 10,
+    "fields": {
+        "name": "Rimsha Nishanth",
+        "role": "PR and Sponsorship",
+        "tag": null,
+        "bio": "Driving strategic institutional alliances and securing community resource sponsorships to elevate funding scale and keep event access fully dynamic for tech scale builders.",
+        "image_url": "team/rimsha.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/rimsha-nishath-b1a618337/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:37:21.901Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 11,
+    "fields": {
+        "name": "Geethika Jaggumantri",
+        "role": "PR and Marketing",
+        "tag": "Marketing | Campaign Operations",
+        "bio": "Leading promotional outreach blueprints and public relations funnels across social channels to scale tech awareness and optimize organic community growth parameters.",
+        "image_url": "team\\geethika.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/geethika-jaggumantri-9867773b4/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:38:32.098Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 12,
+    "fields": {
+        "name": "Sreeja Shetty",
+        "role": "PR & Operations / Event Management",
+        "tag": "Event Execution | Anchoring",
+        "bio": "Managing on-ground event workflows, stage presence dynamics, and anchoring live meetups to maintain engaging, seamless community event timelines.",
+        "image_url": "team/sreeja.jpg",
+        "linkedin_url": "https://www.linkedin.com/in/sreeja-shetty-1b3711301",
+        "x_url": null,
+        "created_at": "2026-06-30T21:39:53.096Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 13,
+    "fields": {
+        "name": "Mora Shiva",
+        "role": "Public Relations",
+        "tag": "Media Communications | Networking",
+        "bio": "Managing local public networks, student ecosystem relations, and community visibility channels to foster dynamic collaboration structures across Hyderabad's colleges.",
+        "image_url": "team\\mora_shiva.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/mora-shiva-6004b2357/",
+        "x_url": null,
+        "created_at": "2026-06-30T21:40:50.765Z"
+    }
+},
+{
+    "model": "home.teammember",
+    "pk": 14,
+    "fields": {
+        "name": "Revanth Pathapati",
+        "role": "Public Relations & Photographer",
+        "tag": "Media Communications | Networking",
+        "bio": "Managing local public networks, student ecosystem relations, and community visibility channels to foster dynamic collaboration structures across Hyderabad's colleges.",
+        "image_url": "team/revanth.jpeg",
+        "linkedin_url": "https://www.linkedin.com/in/revanth-pathapati-434211372?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+        "x_url": null,
+        "created_at": "2026-06-30T21:42:15.784Z"
+    }
+}
+]
