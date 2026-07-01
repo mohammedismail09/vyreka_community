@@ -15,17 +15,11 @@ def get_list_env(key, default=""):
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-dev-key")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = get_list_env("ALLOWED_HOSTS", "127.0.0.1,localhost")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
-CORS_ALLOWED_ORIGINS = get_list_env(
-    "CORS_ALLOWED_ORIGINS",
-    "http://localhost:5173"
-)
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 
-CSRF_TRUSTED_ORIGINS = get_list_env(
-    "CSRF_TRUSTED_ORIGINS",
-    "http://localhost:5173"
-)
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:5173").split(",")
 
 CORS_ALLOW_CREDENTIALS = True
 
