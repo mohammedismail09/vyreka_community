@@ -1,19 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "backend/vyreka_community/wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "backend/static/$1"
+      "source": "/static/(.*)",
+      "destination": "/backend/static/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "backend/vyreka_community/wsgi.py"
+      "source": "/(.*)",
+      "destination": "/backend/vyreka_community/wsgi.py"
     }
   ]
 }
