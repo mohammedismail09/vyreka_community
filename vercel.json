@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/backend/static/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/vyreka_community/wsgi.py"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/backend/vyreka_community/wsgi.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
+    }
+  ]
+}
