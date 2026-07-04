@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 
 from .models import Event, TeamMember
 
@@ -70,8 +72,12 @@ def team_list_api(request):
     return JsonResponse(data, safe=False)
 
 @csrf_exempt
+@never_cache
 @require_http_methods(["POST"])
 def contact_api(request):
+    
+    request.session.modified = False
+
     try:
         data = json.loads(request.body)
 
