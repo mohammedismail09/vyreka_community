@@ -15,6 +15,9 @@ type ContactFormData = {
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:8000";
 
+// Replace this placeholder link with your actual Google Form share link!
+const BACKUP_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfYourActualFormIdHere/viewform?usp=sf_link";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState<ContactFormData>({
     first_name: "",
@@ -151,15 +154,36 @@ export default function ContactPage() {
             </div>
 
             <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-outline-variant/20 dark:bg-surface-container/40">
+              {/* Feedback and Backup form display area */}
               {feedback && (
-                <div
-                  className={`mb-4 rounded-xl p-4 text-sm font-medium ${
-                    feedback.type === "success"
-                      ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                      : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                  }`}
-                >
-                  {feedback.text}
+                <div className="mb-5 space-y-3">
+                  <div
+                    className={`rounded-xl p-4 text-sm font-medium ${
+                      feedback.type === "success"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                        : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                    }`}
+                  >
+                    {feedback.text}
+                  </div>
+                  
+                  {/* If the system errors out, add the interactive Google Form backup shortcut */}
+                  {feedback.type === "error" && (
+                    <div className="rounded-xl border border-dashed border-red-300 bg-red-50/50 p-4 text-center dark:border-red-900/40 dark:bg-red-950/10">
+                      <p className="text-xs text-gray-600 dark:text-on-surface-variant">
+                        Is our direct notification server acting up? No problem! Click below to send your message directly via Google Forms:
+                      </p>
+                      <a
+                        href={BACKUP_FORM_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-purple-700 underline transition-all hover:text-purple-950 dark:text-primary dark:hover:text-primary/80"
+                      >
+                        Open Backup Contact Form
+                        <span className="material-symbols-outlined text-xs">open_in_new</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               )}
 
