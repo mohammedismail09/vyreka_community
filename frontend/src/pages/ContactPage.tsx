@@ -16,7 +16,7 @@ type ContactFormData = {
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:8000";
 
 // Replace this placeholder link with your actual Google Form share link!
-const BACKUP_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfYourActualFormIdHere/viewform?usp=sf_link";
+const BACKUP_FORM_URL = "https://forms.gle/HcPpZE6wxAw3eThp6";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState<ContactFormData>({
