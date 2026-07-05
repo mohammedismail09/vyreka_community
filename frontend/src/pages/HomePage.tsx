@@ -678,9 +678,9 @@ export default function HomePage() {
                           {event.title}
                         </h4>
 
-                        <p className="timeline-p mt-2 text-gray-600 dark:text-on-surface-variant">
+                        <p className="timeline-p mt-2 text-gray-600 line-clamp-2 dark:text-on-surface-variant">
                           {event.description?.trim() ||
-                            "Explore this event on the Events page for more details."}
+                          "Explore this event on the Events page for more details."}
                         </p>
 
                         <div
