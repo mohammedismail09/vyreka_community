@@ -1,13 +1,3 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/static/(.*)",
-      "destination": "/backend/static/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/backend/vyreka_community/wsgi.py"
-    }
-  ]
+  "version": 2
 }
