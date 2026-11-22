@@ -8,9 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
-
 from .models import Event, TeamMember
-
+from .models import ContactSubmission
 
 @require_GET
 def events_api(request):
@@ -151,3 +150,57 @@ def contact_api(request):
         return JsonResponse({"error": "Invalid JSON payload."}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+    @csrf_exempt
+    @require_POST
+    def contact_api(request):
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+
+        first_name = (payload.get("first_name") or "").strip()
+        last_name = (payload.get("last_name") or "").strip()
+        email = (payload.get("email") or "").strip()
+        mobile = (payload.get("mobile") or "").strip()
+        message = (payload.get("message") or "").strip()
+
+        if not first_name or not last_name or not email or not message:
+            return JsonResponse(
+                {"error": "First name, last name, email, and message are required."},
+                status=400,
+            )
+
+        submission = ContactSubmission.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            mobile=mobile or None,
+            message=message,
+        )
+
+        # Optional email alert if SMTP env vars are configured on Vercel
+        if getattr(settings, "EMAIL_HOST_USER", ""):
+            try:
+                send_mail(
+                    subject=f"[Vyreka Contact] {first_name} {last_name}",
+                    message=(
+                        f"Name: {first_name} {last_name}\n"
+                        f"Email: {email}\n"
+                        f"Mobile: {mobile or 'N/A'}\n\n"
+                        f"Message:\n{message}"
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=["vyrekaedtech@gmail.com"],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+
+        return JsonResponse(
+            {
+                "id": submission.id,
+                "message": "Thanks for reaching out! Our team will get back to you within 24 hours.",
+            },
+            status=201,
+        )

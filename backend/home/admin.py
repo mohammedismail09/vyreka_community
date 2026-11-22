@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.shortcuts import redirect, render
 from django.urls import path
-from .models import Event, TeamMember, GalleryImage
+from .models import Event, TeamMember, GalleryImage, ContactSubmission
 
 
 @admin.register(Event)
@@ -107,3 +107,15 @@ class GalleryImageAdmin(admin.ModelAdmin):
             "form": form,
         }
         return render(request, "admin/bulk_gallery_upload.html", context)
+
+from .models import Event, TeamMember, GalleryImage, ContactSubmission
+
+
+@admin.register(ContactSubmission)
+class ContactSubmissionAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name", "email", "mobile", "is_resolved", "created_at")
+    list_filter = ("is_resolved", "created_at")
+    list_editable = ("is_resolved",)
+    search_fields = ("first_name", "last_name", "email", "mobile", "message")
+    readonly_fields = ("first_name", "last_name", "email", "mobile", "message", "created_at")
+    ordering = ("-created_at",)
