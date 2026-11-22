@@ -1,15 +1,12 @@
 import json
-from .models import Event, TeamMember, GalleryImage
-
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET, require_http_methods
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
-from .models import Event, TeamMember
-from .models import ContactSubmission
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
+from .models import Event, TeamMember, GalleryImage, ContactSubmission
+
 
 @require_GET
 def events_api(request):
@@ -31,6 +28,7 @@ def events_api(request):
 
     return JsonResponse({"events": data}, status=200)
 
+
 @require_GET
 def gallery_api(request):
     images = GalleryImage.objects.all()
@@ -46,6 +44,7 @@ def gallery_api(request):
         if img.resolved_url
     ]
     return JsonResponse({"images": data}, status=200)
+
 
 @require_GET
 def homepage_events_api(request):
@@ -67,14 +66,13 @@ def homepage_events_api(request):
 
     return JsonResponse({"events": data}, status=200)
 
+
+@require_GET
 def team_list_api(request):
-    # Fetch all team members from your Postgres database
-    members = TeamMember.objects.all().order_by('id')
-    
-    # Map the database objects into a clean Python list of dictionaries
-    data = []
-    for member in members:
-        data.append({
+    members = TeamMember.objects.all().order_by("id")
+
+    data = [
+        {
             "id": member.id,
             "name": member.name,
             "role": member.role,
@@ -83,124 +81,67 @@ def team_list_api(request):
             "image_url": member.image_url or "",
             "linkedin_url": member.linkedin_url or "",
             "x_url": member.x_url or "",
-        })
-        
-    # Send it back to React as a secure JSON response
+        }
+        for member in members
+    ]
+
     return JsonResponse(data, safe=False)
+
 
 @csrf_exempt
 @never_cache
-@require_http_methods(["POST"])
+@require_POST
 def contact_api(request):
-    
     request.session.modified = False
 
     try:
-        data = json.loads(request.body)
-
-        first_name = data.get("first_name", "").strip()
-        last_name = data.get("last_name", "").strip()
-        user_email = data.get("email", "").strip()
-        mobile = data.get("mobile", "").strip() or "Not Provided"
-        message_body = data.get("message", "").strip()
-
-        if not first_name or not last_name or not user_email or not message_body:
-            return JsonResponse(
-                {"error": "All required fields must be filled."},
-                status=400,
-            )
-
-        full_name = f"{first_name} {last_name}"
-
-        send_mail(
-            subject="Thank you for reaching out to Vyreka!",
-            message=(
-                f"Hi {full_name},\n\n"
-                "Thank you for getting in touch with us! "
-                "We have received your message and our team will get back to you shortly.\n\n"
-                "Best regards,\n"
-                "Team Vyreka"
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user_email],
-            fail_silently=False,
-        )
-
-        admin_email = "mismailahmed46@gmail.com"
-        send_mail(
-            subject=f"[Vyreka] New Contact Submission from {full_name}",
-            message=(
-                "You received a new message through the contact page form.\n\n"
-                f"Name: {full_name}\n"
-                f"Email: {user_email}\n"
-                f"Mobile: {mobile}\n\n"
-                f"Message:\n{message_body}"
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[admin_email],
-            fail_silently=False,
-        )
-
-        return JsonResponse(
-            {"message": "Your message has been sent successfully!"},
-            status=200,
-        )
-
-    except json.JSONDecodeError:
+        payload = json.loads(request.body.decode("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
         return JsonResponse({"error": "Invalid JSON payload."}, status=400)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
 
-    @csrf_exempt
-    @require_POST
-    def contact_api(request):
-        try:
-            payload = json.loads(request.body.decode("utf-8"))
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+    first_name = (payload.get("first_name") or "").strip()
+    last_name = (payload.get("last_name") or "").strip()
+    email = (payload.get("email") or "").strip()
+    mobile = (payload.get("mobile") or "").strip()
+    message = (payload.get("message") or "").strip()
 
-        first_name = (payload.get("first_name") or "").strip()
-        last_name = (payload.get("last_name") or "").strip()
-        email = (payload.get("email") or "").strip()
-        mobile = (payload.get("mobile") or "").strip()
-        message = (payload.get("message") or "").strip()
-
-        if not first_name or not last_name or not email or not message:
-            return JsonResponse(
-                {"error": "First name, last name, email, and message are required."},
-                status=400,
-            )
-
-        submission = ContactSubmission.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            mobile=mobile or None,
-            message=message,
-        )
-
-        # Optional email alert if SMTP env vars are configured on Vercel
-        if getattr(settings, "EMAIL_HOST_USER", ""):
-            try:
-                send_mail(
-                    subject=f"[Vyreka Contact] {first_name} {last_name}",
-                    message=(
-                        f"Name: {first_name} {last_name}\n"
-                        f"Email: {email}\n"
-                        f"Mobile: {mobile or 'N/A'}\n\n"
-                        f"Message:\n{message}"
-                    ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=["vyrekaedtech@gmail.com"],
-                    fail_silently=True,
-                )
-            except Exception:
-                pass
-
+    if not first_name or not last_name or not email or not message:
         return JsonResponse(
-            {
-                "id": submission.id,
-                "message": "Thanks for reaching out! Our team will get back to you within 24 hours.",
-            },
-            status=201,
+            {"error": "First name, last name, email, and message are required."},
+            status=400,
         )
+
+    submission = ContactSubmission.objects.create(
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        mobile=mobile or None,
+        message=message,
+    )
+
+    # Optional SMTP email forwarding (only runs if SMTP backend & credentials exist)
+    email_backend = getattr(settings, "EMAIL_BACKEND", "")
+    if "smtp" in email_backend.lower() and getattr(settings, "EMAIL_HOST_USER", ""):
+        try:
+            send_mail(
+                subject=f"[Vyreka] New Contact Submission from {first_name} {last_name}",
+                message=(
+                    f"Name: {first_name} {last_name}\n"
+                    f"Email: {email}\n"
+                    f"Mobile: {mobile or 'Not Provided'}\n\n"
+                    f"Message:\n{message}"
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=["mismailahmed46@gmail.com", "vyrekaedtech@gmail.com"],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
+
+    return JsonResponse(
+        {
+            "id": submission.id,
+            "message": "Your message has been sent successfully! Our team will get back to you within 24 hours.",
+        },
+        status=201,
+    )
