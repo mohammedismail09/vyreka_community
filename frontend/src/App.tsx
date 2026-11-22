@@ -1372,7 +1372,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="font-bold text-sm">Email Support</p>
-                      <p className="text-xs font-mono text-secondary">vyrekaedtech@gmail.com</p>
+                      <p className="text-xs font-mono text-secondary">mismailahmed46@gmail.com</p>
                     </div>
                   </div>
 
