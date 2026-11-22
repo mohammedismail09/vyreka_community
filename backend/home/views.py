@@ -1,4 +1,5 @@
 import json
+from .models import Event, TeamMember, GalleryImage
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -22,6 +23,7 @@ def events_api(request):
             "date": event.date.isoformat(),
             "description": event.description,
             "venue": event.venue or "TBA",
+            "poster_url": event.resolved_poster_url,
             "registration_link": event.registration_link,
             "is_live": event.is_live,
         }
@@ -30,6 +32,21 @@ def events_api(request):
 
     return JsonResponse({"events": data}, status=200)
 
+@require_GET
+def gallery_api(request):
+    images = GalleryImage.objects.all()
+    data = [
+        {
+            "id": img.id,
+            "title": img.title or f"Vyreka Moment #{img.id}",
+            "image_url": img.resolved_url,
+            "event_date": img.event_date.isoformat() if img.event_date else None,
+            "featured_on_home": img.featured_on_home,
+        }
+        for img in images
+        if img.resolved_url
+    ]
+    return JsonResponse({"images": data}, status=200)
 
 @require_GET
 def homepage_events_api(request):
@@ -42,6 +59,7 @@ def homepage_events_api(request):
             "date": event.date.isoformat(),
             "description": event.description,
             "venue": event.venue or "TBA",
+            "poster_url": event.resolved_poster_url,
             "registration_link": event.registration_link,
             "is_live": event.is_live,
         }

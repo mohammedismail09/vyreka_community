@@ -1,21 +1,32 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import "./index.css";
-import ScrollToTop from "./components/ScrollToTop";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
 
-const rootElement = document.getElementById("root");
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
 
-if (!rootElement) {
-  throw new Error("Failed to find the root element");
-}
+// import React from "react";
+// import ReactDOM from "react-dom/client";
+// import { BrowserRouter } from "react-router-dom";
+// import App from "./App";
+// import "./index.css";
+// import ScrollToTop from "./components/ScrollToTop";
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ScrollToTop />
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-);
+// const rootElement = document.getElementById("root");
+
+// if (!rootElement) {
+//   throw new Error("Failed to find the root element");
+// }
+
+// ReactDOM.createRoot(rootElement).render(
+//   <React.StrictMode>
+//     <BrowserRouter>
+//       <ScrollToTop />
+//       <App />
+//     </BrowserRouter>
+//   </React.StrictMode>,
+// );

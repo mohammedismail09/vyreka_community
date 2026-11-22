@@ -1,57 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700,500&f[]=satoshi@400,500,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
 
-html,
-body,
-#root {
-  min-height: 100%;
-}
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-body {
-  font-family: "Geist", sans-serif;
-}
+  :root {
+    --background: #0B0B0E;
+    --card-bg: #141418;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --accent: #FF5A1F;
+    --border: #23232A;
+  }
 
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
+  [data-theme="light"] {
+    --background: #F8F9FA;
+    --card-bg: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --accent: #E14D18;
+    --border: #E2E8F0;
+  }
 
-.glass-card {
-  background: rgba(23, 31, 51, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease;
-}
+  body {
+    font-family: 'Satoshi', -apple-system, sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
 
-html.light .glass-card {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
+  h1, h2, h3, .font-display {
+    font-family: 'Clash Display', -apple-system, sans-serif;
+  }
 
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.scroll-reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.timeline-line {
-  background: linear-gradient(180deg, #d0bcff 0%, #0566d9 100%);
-}
-
-body {
-  min-height: max(884px, 100dvh);
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+  .font-mono {
+    font-family: 'Space Grotesk', monospace;
+  }
